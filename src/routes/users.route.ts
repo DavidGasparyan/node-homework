@@ -10,10 +10,12 @@ import {Container} from "typedi";
 const usersController = Container.get(UsersController);
 const userRouter = Router();
 
-userRouter.route('/users')
+userRouter
+  .route('/users')
   .get(urlParamsUserIdValidation, usersController.getAll.bind(usersController))
   .post(urlBodyUsersValidation, usersController.createMultiple.bind(usersController));
-userRouter.route('/users/:id')
+userRouter
+  .route('/users/:id')
   .get(urlParamsUserIdValidation, usersController.get.bind(usersController))
   .put(urlBodyUserValidation, usersController.update.bind(usersController))
   .patch(urlBodyUserValidation, usersController.update.bind(usersController))
