@@ -1,61 +1,32 @@
-import {User} from "../types/User.type";
-import {delay} from "../functions/delay.function";
-import {Service} from "typedi";
+import {Inject, Service} from "typedi";
+import {AppDataSource} from "../db/data-source";
+import {User} from '../entity/User';
+import {DeleteResult, Repository, UpdateResult} from "typeorm";
+import {InjectRepository} from "typeorm-typedi-extensions";
 
 @Service()
 export class UsersService {
-  private users: User[] = [];
+  private userRepository = AppDataSource.getRepository(User);
 
-  async get(id: string): Promise<User> {
-    const user = this.users.find((user: User) => user.id === id);
+  async get(id: number): Promise<User | null> {
 
-    if (user) {
-      return delay(user);
-    }
-
-    return {} as User;
+    return await this.userRepository.findOneBy({id});
   }
 
   async getAll(): Promise<User[]> {
-    return delay(this.users);
+    return await this.userRepository.find();
   }
 
   async createMultiple(users: User[]): Promise<User[]> {
-    const updatedUsers = [];
-    for (let user of users) {
-      const isFound = this.users.some(currentUser => currentUser.id === user.id);
-
-      if (!isFound) {
-        this.users.push(user);
-        updatedUsers.push(user);
-      }
-    }
-
-    return delay(updatedUsers);
+    return await this.userRepository.save(users);
   }
 
-  async update(id: string, updatedUser: User): Promise<User> {
-    const userExists = this.users.find(user => user.id === id);
-
-    if (userExists) {
-      this.users = this.users.map(user => user.id === id ? { ...user, ...updatedUser} : user);
-    } else {
-      this.users.push(updatedUser);
-    }
-
-    return delay(updatedUser);
+  async update(id: number, updatedUser: User): Promise<UpdateResult> {
+    return await this.userRepository.update({id}, updatedUser);
   }
 
-  async delete(id: string) {
-    const user = this.users.find((user: User) => user.id === id);
-
-    if (user) {
-      this.users = this.users.filter((user) => user.id !== id);
-      return delay(user);
-    }
-
-    // update validations here
-    throw Error('Not found');
+  async delete(id: number): Promise<DeleteResult> {
+    return await this.userRepository.delete({id});
   }
 }
 

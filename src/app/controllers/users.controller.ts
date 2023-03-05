@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import {UsersService} from "../services/users.service";
 import {Service} from "typedi";
-import {User} from "../types/User.type";
+import {User} from '../entity/User';
 
 @Service()
 export class UsersController {
@@ -14,7 +14,7 @@ export class UsersController {
   public async get(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const user = await this.usersService.get(id);
+      const user = await this.usersService.get(+id);
       res.status(200).json(user);
     } catch (err) {
 
@@ -45,9 +45,9 @@ export class UsersController {
     try {
       const { id } = req.params;
       const updatedUser: User = req.body;
-      const user = await this.usersService.update(id, updatedUser);
+      const updateResult = await this.usersService.update(+id, updatedUser);
 
-      res.status(200).json(user);
+      res.status(200).json(updateResult);
     } catch(err) {
 
     }
@@ -56,9 +56,9 @@ export class UsersController {
   public async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const user = await this.usersService.delete(id);
+      const deleteResult = await this.usersService.delete(+id);
 
-      res.status(200).json(user);
+      res.status(200).json(deleteResult);
     } catch(err) {
 
     }
