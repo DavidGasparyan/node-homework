@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start:dev": "nodemon -I --exec node --experimental-specifier-resolution=node  --loader ts-node/esm ./src/server.ts",
-    "build:prod": "./node_modules/.bin/babel src --config-file ./babel.config.json --out-dir dist --extensions '.ts,.tsx'"
+    "build:prod": "./node_modules/.bin/babel src --config-file ./babel.config.json --out-dir dist --extensions '.ts,.tsx'",
+    "typeorm": "typeorm-ts-node-esm"
   },
   "type": "module",
   "keywords": [],
@@ -19,9 +20,8 @@
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.1.13",
-    "sequelize": "^6.29.0",
-    "sequelize-typescript": "^2.1.5",
-    "typedi": "^0.10.0"
+    "typedi": "^0.10.0",
+    "typeorm": "0.3.12"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",

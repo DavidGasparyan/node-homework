@@ -1,4 +1,9 @@
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
 node-homework.iml
-node_modules
+.DS_Store
 dist
-.idea
